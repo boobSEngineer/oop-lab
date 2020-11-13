@@ -1,6 +1,8 @@
 package com.eltech.lab2;
 
-public interface Shape {
+import java.io.Serializable;
+
+public interface Shape extends Serializable {
     double calcArea();
     double calcPerimeter();
 }
