@@ -7,7 +7,10 @@ public class Matrix {
     private final double[] data;
     private final int width, height;
 
-    public Matrix(double[] data, int width, int height) {
+    private Matrix(double[] data, int width, int height, boolean copyData) {
+        if (copyData) {
+            data = Arrays.copyOf(data, data.length);
+        }
         if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("invalid matrix dimensions: " + width + "x" + height);
         }
@@ -19,12 +22,16 @@ public class Matrix {
         this.height = height;
     }
 
+    public Matrix(double[] data, int width, int height) {
+        this(data, width, height, true);
+    }
+
     public Matrix(int width, int height) {
-        this(new double[width * height], width, height);
+        this(new double[width * height], width, height, false);
     }
 
     public double[] getData() {
-        return data;
+        return Arrays.copyOf(data, data.length);
     }
 
     public int getWidth() {

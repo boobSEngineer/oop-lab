@@ -27,4 +27,8 @@ public class Triangle implements Shape {
     public String toString() {
         return "Triangle{" + side1 + ", " + side2 + ", " + side3 + '}';
     }
+
+    public double[] getSides() {
+        return new double[] { side1, side2, side3 };
+    }
 }

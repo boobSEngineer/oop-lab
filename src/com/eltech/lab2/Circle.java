@@ -26,4 +26,8 @@ public class Circle implements Shape {
     public double calcPerimeter() {
         return radius * Math.PI * 2;
     }
+
+    public double getRadius() {
+        return radius;
+    }
 }
