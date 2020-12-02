@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         ShapeAccumulator shapes = new ShapeAccumulator();
         ShapeSaver saver = new ShapeSaver(shapes, new File("shapes.bin"));
+        saver.addExceptionHandler(Throwable::printStackTrace);
         saver.read();
 
         Scanner input = new Scanner(System.in);

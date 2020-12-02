@@ -8,13 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShapeSaver implements ShapeAccumulator.OnChangeListener {
+    public interface ExceptionHandler {
+        void onException(Exception exception);
+    }
+
+
     private final ShapeAccumulator accumulator;
     private final File file;
+    private final List<ExceptionHandler> exceptionHandlers = new ArrayList<>();
 
     public ShapeSaver(ShapeAccumulator accumulator, File file) {
         this.accumulator = accumulator;
         this.file = file;
         accumulator.addListener(this);
+    }
+
+    public void addExceptionHandler(ExceptionHandler handler) {
+        exceptionHandlers.add(handler);
     }
 
     private boolean isWorking = false;
@@ -29,8 +39,10 @@ public class ShapeSaver implements ShapeAccumulator.OnChangeListener {
             isWorking = false;
             return true;
         } catch (IOException | ClassNotFoundException | ClassCastException exception) {
-            exception.printStackTrace();
             isWorking = false;
+            for (ExceptionHandler handler : exceptionHandlers) {
+                handler.onException(exception);
+            }
             return false;
         }
     }
@@ -42,8 +54,10 @@ public class ShapeSaver implements ShapeAccumulator.OnChangeListener {
             isWorking = false;
             return true;
         } catch (IOException exception) {
-            exception.printStackTrace();
             isWorking = false;
+            for (ExceptionHandler handler : exceptionHandlers) {
+                handler.onException(exception);
+            }
             return false;
         }
     }
